@@ -1,3 +1,31 @@
+import sqlite3  # Make sure to import sqlite3
+
+def create_tables():
+    conn = sqlite3.connect('shop_management.db')
+    cursor = conn.cursor()
+
+    # Create the products table if it doesn't exist
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS products (
+            item_code TEXT PRIMARY KEY,
+            item_name TEXT NOT NULL,
+            price REAL NOT NULL,
+            discount REAL NOT NULL,
+            promotion TEXT
+        )
+    ''')
+
+    # Create the cashiers table if it doesn't exist
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS cashiers (
+            username TEXT PRIMARY KEY,
+            password TEXT NOT NULL
+        )
+    ''')
+
+    conn.commit()  # Save changes
+    conn.close()
+
 def insert_sample_data():
     conn = sqlite3.connect('shop_management.db')
     cursor = conn.cursor()
@@ -31,5 +59,8 @@ def insert_sample_data():
 
     print("Sample data inserted successfully!")
 
-# Run this function to insert sample data
+# First, create the necessary tables
+create_tables()
+
+# Then, insert sample data
 insert_sample_data()
